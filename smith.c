@@ -19,7 +19,7 @@ double points = 0;
 char c;
 /****************************************/
 int getValue(int, int);
-char getName(int);
+void printName(int);
 char getSuit(int);
 /****************************************/
 
@@ -66,9 +66,9 @@ int main()
         /* Print card status visible to user */
         printf("\n");
         printf("The dealer's cards: ");
-        printf("Unknown, %c of %c\n", getName(card2), getSuit(card2));
+        printf("Unknown, "); printName(card2); printf(" of %c\n", getSuit(card2));
         printf("Your cards: ");
-        printf("%c of %c, %c of %c\n", getName(card3), getSuit(card3), getName(card4), getSuit(card4));
+        printName(card3); printf(" of %c, ", getSuit(card3)); printName(card4); printf(" of %c\n", getSuit(card4));
         printf("\n");
         /*****************************************************************************************************/
         
@@ -86,7 +86,7 @@ int main()
             {
                 int newCard = rand()%52;
                 total += getValue(newCard, total);
-                printf("*New card: %c of %c\n", getName(newCard), getSuit(newCard));
+                printf("*New card: "); printName(newCard); printf(" of %c\n", getSuit(newCard));
             }
             
         } while(c != 's' && total <= 21);
@@ -94,12 +94,12 @@ int main()
             printf("You BUST!\n");
         printf("\n");
         
-        printf("*Dealer's unknown card: %c of %c\n", getName(card1), getSuit(card1));
+        printf("*Dealer's unknown card: "); printName(card1); printf(" of %c\n", getSuit(card1));
         while (dealerTotal < 17 && total <= 21)
         {
             int dealerNewCard = rand()%52;
             dealerTotal += getValue(dealerNewCard, dealerTotal);
-            printf("*Dealer dealt himself: %c of %c\n", getName(dealerNewCard), getSuit(dealerNewCard));
+            printf("*Dealer dealt himself: "); printName(dealerNewCard); printf(" of %c\n", getSuit(dealerNewCard));
         }
         if(dealerTotal > 21)
             printf("Dealer BUSTED!\n");
@@ -141,7 +141,7 @@ int getValue(int val, int total)
     return 10;
 }
 
-char printName(int val)
+void printName(int val)
 {
     switch(val/4)
     {
@@ -153,14 +153,18 @@ char printName(int val)
             printf("%d", val/4);
             break;
         case 10:
-            return 'J';
+            printf("Jack");
+            break;
         case 11:
-            return 'Q';
+            printf("Queen");
+            break;
         case 12:
-            return 'K';
+            printf("King");
+            break;
+        default:
+            printf("Error");
     }
-    /*If the card is not returned from the switch statement, return 'E' for error*/
-    return 'E';
+    return;
 }
 /********************************/
 char getSuit(int val)
