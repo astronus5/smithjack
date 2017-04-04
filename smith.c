@@ -122,7 +122,7 @@ int main()
         printf("-[Total score = %0.1lf]-\n", points);
         
         printf("Wish to play again'y/n': ");
-        scanf("&c", &flag);
+        scanf(" &c", &flag);
         printf("\n\n");
     }
     
@@ -150,7 +150,7 @@ void printName(int val)
             break;
         case 1: case 2: case 3: case 4: case 5:
         case 6: case 7: case 8: case 9:
-            printf("%d", val/4);
+            printf("%d", val/4 + 1);
             break;
         case 10:
             printf("Jack");
