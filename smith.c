@@ -12,12 +12,14 @@
 /****************************************/
 int i;
 char flag = 'y';
+int caseMet = 0;
 
 double points = 0;
 
 char c;
 /****************************************/
 int getValue(int, int);
+char getName(int);
 char getSuit(int);
 /****************************************/
 
@@ -29,6 +31,7 @@ int main()
     /* Loop through rounds */
     for(i=0;flag=='y';i++)
     {
+        caseMet = 0;
         printf("Round %d)\n", i+1); //State round
         
         /* Dealer's initial hand */
@@ -44,32 +47,34 @@ int main()
             if(getValue(card3, 0) + getValue(card4, 0) == 21)
             {
                 printf("It's a knock\n");
-                continue;
+                caseMet = 1;
             } else
             {
+                printf("Dealer got SmithJack\n");
                 points -= 1.0; 
-                continue;
+                caseMet = 1;
             }
         /* Test for if user user's initial hand is 21 */    
-        if(getValue(card3, 0) + getValue(card4, 0) == 21)
+        if(getValue(card3, 0) + getValue(card4, 0) == 21 && caseMet == 0)
         {
             points += 1.5;
             printf("You got SmithJack!\n");
-            continue;
         }
-        
+        if(caseMet == 0)
+    {
         /*****************************************************************************************************/
         /* Print card status visible to user */
         printf("\n");
         printf("The dealer's cards: ");
-        printf("Unknown, %d of %c\n", getValue(card2, 0), getSuit(card2));
+        printf("Unknown, %c of %c\n", getName(card2), getSuit(card2));
         printf("Your cards: ");
-        printf("%d of %c, %d of %c\n", getValue(card3, 0), getSuit(card3), getValue(card4, 0), getSuit(card4));
+        printf("%c of %c, %c of %c\n", getName(card3), getSuit(card3), getName(card4), getSuit(card4));
         printf("\n");
         /*****************************************************************************************************/
         
         /* Define user's total card count within the round */
         int total = getValue(card3, 0) + getValue(card4, 0);
+        int dealerTotal = getValue(card1, 0) + getValue(card2, 0);
         
         /* Prompt user for action */
         do
@@ -81,20 +86,44 @@ int main()
             {
                 int newCard = rand()%52;
                 total += getValue(newCard, total);
-                printf("*New card: %d of %c\n", getValue(newCard, total), getSuit(newCard));
+                printf("*New card: %c of %c\n", getName(newCard), getSuit(newCard));
             }
             
         } while(c != 's' && total <= 21);
         if(total > 21)
-            printf("BUST!\n");
+            printf("You BUST!\n");
+        printf("\n");
         
-        if((getValue(card1, 0) + getValue(card2, 0)) < (getValue(card3, 0) + getValue(card4, 0)))
+        printf("*Dealer's unknown card: %c of %c\n", getName(card1), getSuit(card1));
+        while (dealerTotal < 17 && total <= 21)
+        {
+            int dealerNewCard = rand()%52;
+            dealerTotal += getValue(dealerNewCard, dealerTotal);
+            printf("*Dealer dealt himself: %c of %c\n", getName(dealerNewCard), getSuit(dealerNewCard));
+        }
+        if(dealerTotal > 21)
+            printf("Dealer BUSTED!\n");
+        
+        
+        
+        if((dealerTotal < total && total <= 21) || (dealerTotal > 21 && total <= 21))
+        {
             points += 1;
-        
-        printf("-[Total score = %lf]-\n", points);
+            printf("You won!\n");
+        }else if(dealerTotal == total)
+        {
+            printf("Tie!\n");
+        } else
+        {
+            points -= 1;
+            printf("Player loses\n");
+        }
+    }
+        printf("-[Total score = %0.1lf]-\n", points);
         
         printf("Wish to play again'y/n': ");
         scanf("&c", &flag);
+        printf("\n");
     }
     
     return 0;
@@ -104,10 +133,34 @@ int main()
 int getValue(int val, int total)
 {
     if(val <= 10 * 4)
+    {
         if(val < 4 && total <= 10)
             return 11;
         return val/4 + 1;
+    }
     return 10;
+}
+
+char printName(int val)
+{
+    switch(val/4)
+    {
+        case 0:
+            printf("Ace");
+            break;
+        case 1: case 2: case 3: case 4: case 5:
+        case 6: case 7: case 8: case 9:
+            printf("%d", val/4);
+            break;
+        case 10:
+            return 'J';
+        case 11:
+            return 'Q';
+        case 12:
+            return 'K';
+    }
+    /*If the card is not returned from the switch statement, return 'E' for error*/
+    return 'E';
 }
 /********************************/
 char getSuit(int val)
@@ -123,5 +176,7 @@ char getSuit(int val)
         case 3:
             return 'D';
     }
+    /*If the card is not returned from the switch statement, return 'E' for error*/
+    return 'E';
 }
 /********************************/
