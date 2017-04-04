@@ -4,7 +4,7 @@
 * Group: Cryptic Card Counters
 * Date: 3/4/17
 * Purpose: Blackjack game with a deck of a
-        perpetual count of 54
+        perpetual count of 52
 *****************************************/
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +20,6 @@ char c;
 /****************************************/
 int getValue(int, int);
 void printName(int);
-char getSuit(int);
 /****************************************/
 
 int main()
@@ -66,9 +65,9 @@ int main()
         /* Print card status visible to user */
         printf("\n");
         printf("The dealer's cards: ");
-        printf("Unknown, "); printName(card2); printf(" of %c\n", getSuit(card2));
+        printf("Hidden, "); printName(card2); printf("\n");
         printf("Your cards: ");
-        printName(card3); printf(" of %c, ", getSuit(card3)); printName(card4); printf(" of %c\n", getSuit(card4));
+        printName(card3); printf(", "); printName(card4); printf("\n");
         printf("\n");
         /*****************************************************************************************************/
         
@@ -86,7 +85,7 @@ int main()
             {
                 int newCard = rand()%52;
                 total += getValue(newCard, total);
-                printf("*New card: "); printName(newCard); printf(" of %c\n", getSuit(newCard));
+                printf("*New card: "); printName(newCard); printf("\n");
             }
             
         } while(c != 's' && total <= 21);
@@ -94,12 +93,12 @@ int main()
             printf("You BUST!\n");
         printf("\n");
         
-        printf("*Dealer's unknown card: "); printName(card1); printf(" of %c\n", getSuit(card1));
+        printf("*Dealer's unknown card: "); printName(card1); printf("\n");
         while (dealerTotal < 17 && total <= 21)
         {
             int dealerNewCard = rand()%52;
             dealerTotal += getValue(dealerNewCard, dealerTotal);
-            printf("*Dealer dealt himself: "); printName(dealerNewCard); printf(" of %c\n", getSuit(dealerNewCard));
+            printf("*Dealer dealt himself: "); printName(dealerNewCard); printf("\n");
         }
         if(dealerTotal > 21)
             printf("Dealer BUSTED!\n");
@@ -123,7 +122,7 @@ int main()
         
         printf("Wish to play again'y/n': ");
         scanf("&c", &flag);
-        printf("\n");
+        printf("\n\n");
     }
     
     return 0;
@@ -163,24 +162,27 @@ void printName(int val)
             break;
         default:
             printf("Error");
+            break;
     }
-    return;
-}
-/********************************/
-char getSuit(int val)
-{
+    printf(" of ");
     switch(val%4)
     {
         case 0:
-            return 'S';
+            printf("Spades");
+            break;
         case 1:
-            return 'C';
+            printf("Clubs");
+            break;
         case 2:
-            return 'H';
+            printf("Hearts");
+            break;
         case 3:
-            return 'D';
+            printf("Diamonds");
+            break;
+        default:
+            printf("Error");
+            break;
     }
-    /*If the card is not returned from the switch statement, return 'E' for error*/
-    return 'E';
+    return;
 }
 /********************************/
