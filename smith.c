@@ -11,7 +11,7 @@
 #include <time.h>
 /****************************************/
 int i;
-int choice = 1;
+char flag = 'y';
 
 double points = 0;
 
@@ -27,7 +27,7 @@ int main()
     srand(time(0)); //Set seed to timestamp
     
     /* Loop through rounds */
-    for(i=0;choice==1;i++)
+    for(i=0;flag=='y';i++)
     {
         printf("Round %d)\n", i+1); //State round
         
@@ -47,7 +47,7 @@ int main()
                 continue;
             } else
             {
-                points -= 1.0;
+                points -= 1.0; 
                 continue;
             }
         /* Test for if user user's initial hand is 21 */    
@@ -81,13 +81,24 @@ int main()
             {
                 int newCard = rand()%52;
                 total += getValue(newCard, total);
-                printf("New card: %d of %c\n", getValue(newCard, total), getSuit(newCard));
+                printf("*New card: %d of %c\n", getValue(newCard, total), getSuit(newCard));
             }
             
         } while(c != 's' && total <= 21);
         if(total > 21)
             printf("BUST!\n");
+        
+        if((getValue(card1, 0) + getValue(card2, 0)) < (getValue(card3, 0) + getValue(card4, 0)))
+            points += 1;
+        
+        printf("-[Total score = %lf]-\n", points);
+        
+        printf("Wish to play again'y/n': ");
+        scanf("&c", &flag);
     }
+    
+    return 0;
+    
 }
 /********************************/
 int getValue(int val, int total)
