@@ -47,7 +47,7 @@ int main()
                 continue;
             } else
             {
-                points -= 1.0; //<Daniel> Matthew, is it supposed to be interval decay? should it not be interval growth?
+                points -= 1.0;
                 continue;
             }
         /* Test for if user user's initial hand is 21 */    
