@@ -58,6 +58,7 @@ int main()
         {
             points += 1.5;
             printf("You got SmithJack!\n");
+            caseMet = 1;
         }
         if(caseMet == 0)
     {
