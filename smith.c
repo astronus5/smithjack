@@ -135,10 +135,20 @@ int main()
         printf("-[Total score = %0.1lf]-\n", points);
         
         /*Ask if the player wants to play again*/
-        printf("Wish to play again'y/n': ");
-        scanf("&c", &flag);
-        printf("\n\n");
+        printf("Wish to play again? 'y/n': ");
+        scanf(" %c", &flag);
+    
+        /*Add a newline for readability*/
+        printf("\n");
     }
+    
+    /*Send the user a message as they leave*/
+    if(points > 0)
+        printf("Good game!\n");
+    else if(points < 0)
+        printf("Better luck next time!\n");
+    else
+        printf("Fun playing!\n");
     
     /*Default case of 0 (successful exit)*/
     return 0;
