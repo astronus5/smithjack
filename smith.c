@@ -49,21 +49,24 @@ int main()
             /* Test if user's hand is also 21 */
             if(getValue(card3, 0) + getValue(card4, 0) == 21)
             {
-                printf("It's a knock\n");
+                printf("\nIt's a knock\n");
                 caseMet = 1;
             } else
             {
-                printf("Dealer got SmithJack\n");
+                printf("\nDealer got SmithJack\n");
                 points -= 1.0; 
                 caseMet = 1;
             }
         }
-            
+        
+        /* Print newline for formatting */
+        printf("\n");
+        
         /* Test for if user user's initial hand is 21 */    
         if(getValue(card3, 0) + getValue(card4, 0) == 21 && caseMet == 0)
         {
             points += 1.5;
-            printf("You got SmithJack!\n");
+            printf("\nYou got SmithJack!\n");
             caseMet = 1;
         }
         
@@ -72,7 +75,6 @@ int main()
     {
         /*****************************************************************************************************/
         /* Print card status visible to user */
-        printf("\n");
         printf("The dealer's cards: ");
         printf("Hidden, "); printName(card2); printf("\n");
         printf("Your cards: ");
@@ -124,7 +126,7 @@ int main()
             printf("You won!\n");
         }else if(dealerTotal == total)
         {
-            printf("Tie!\n");
+            printf("It's a knock!\n");
         } else
         {
             points -= 1;
